@@ -5,28 +5,78 @@ module Domain =
     open System
     open System.Text.RegularExpressions
 
-    type Sending = {
-        Tittel: string
-        Kanal: string
+    type Tittel = private Tittel of string
+
+    let isTitleValid (title: string) : bool =
+        let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+        titleRegex.IsMatch(title)
+
+    module Tittel =
+        let create (tittel: String) : Tittel option = 
+            if isTitleValid tittel then
+                Tittel tittel
+                |> Some
+            else
+                None
+
+        let value (Tittel tittel) = tittel
+
+    type Kanal = private Kanal of string
+
+    let isChannelValid (channel: string) : bool =
+        List.contains channel ["NRK1"; "NRK2"]
+
+    module Kanal =
+        let create (kanal: string) : Kanal option =
+            if isChannelValid kanal then
+                Kanal kanal
+                |> Some
+            else
+                None
+
+        let value (Kanal kanal) = kanal
+    
+    type Sendetidspunkt = private {
         StartTidspunkt: DateTimeOffset
         SluttTidspunkt: DateTimeOffset
     }
 
-    type Epg = Sending list
-    
-    let isTitleValid (title: string) : bool =
-        let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
-        titleRegex.IsMatch(title)
-        
-    let isChannelValid (channel: string) : bool =
-        let validChannels = ["NRK1"; "NRK2"]
-        validChannels |> List.contains channel
-        
     let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
-       let compared = startTime |> endTime.CompareTo
-       if compared > 0 then true else false
-       
-    let isTransmissionValid (transmission: Sending) : bool =
-        (transmission.Tittel |> isTitleValid) && 
-        (transmission.Kanal |> isChannelValid ) && 
-        (areStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt)
+        startTime < endTime
+
+    module Sendetidspunkt =
+        let create (startTidspunkt: DateTimeOffset) (sluttTidspunkt: DateTimeOffset) : Sendetidspunkt option =
+            if areStartAndEndTimesValid startTidspunkt sluttTidspunkt then
+                {
+                    StartTidspunkt = startTidspunkt
+                    SluttTidspunkt = sluttTidspunkt
+                }
+                |> Some
+            else
+                None
+
+        let startTidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.StartTidspunkt
+        let sluttTidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.SluttTidspunkt
+
+    type Sending = {
+        Tittel: Tittel
+        Kanal: Kanal
+        Sendetidspunkt: Sendetidspunkt
+    }
+
+    type Epg = Sending list
+
+    module Sending =
+        let create (tittel: string) (kanal: string) (startTidspunkt: DateTimeOffset) (sluttTidspunkt: DateTimeOffset) : Sending option =
+            let tittel = Tittel.create tittel
+            let kanal = Kanal.create kanal
+            let sendeTidspunkt = Sendetidspunkt.create startTidspunkt sluttTidspunkt
+
+            if tittel.IsNone || kanal.IsNone || sendeTidspunkt.IsNone then
+                None
+            else
+                Some {
+                    Tittel = tittel.Value
+                    Kanal = kanal.Value
+                    Sendetidspunkt = sendeTidspunkt.Value
+                }

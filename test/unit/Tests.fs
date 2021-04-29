@@ -66,29 +66,22 @@ let ``areStartAndEndTimesValid end before start returns false`` () =
     Assert.False areStartAndSluttTidspunktValid
     
 [<Fact>]
-let ``isTransmissionValid valid returns true`` () =
-    let validTransmission =
-        {
-            Tittel = "Dagsrevyen"
-            Kanal = "NRK1"
-            StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
-            SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
-        }
+let ``Sending.create valid transmission returns Some`` () =
+    let now = DateTimeOffset.Now
+    let transmission = Sending.create "Dagsrevyen" "NRK1" now (now.AddMinutes 30.)
 
-    let isTransmissionValidResult = isTransmissionValid validTransmission
+    match transmission with
+    | Some t ->
+        Assert.True true
+        Assert.Equal("Dagsrevyen", Tittel.value t.Tittel)
+        Assert.Equal("NRK1", Kanal.value t.Kanal)
+        Assert.Equal(now, Sendetidspunkt.startTidspunkt t.Sendetidspunkt)
+        Assert.Equal(now.AddMinutes 30., Sendetidspunkt.sluttTidspunkt t.Sendetidspunkt)
+    | None -> Assert.True false
 
-    Assert.True isTransmissionValidResult
-    
 [<Fact>]
-let ``isTransmissionValid unvalid returns false`` () =
-    let unvalidTransmission =
-        {
-            Tittel = "D@agsrevyen"
-            Kanal = "NRK3"
-            StartTidspunkt = DateTimeOffset.Parse("2022-04-16T19:00:00+02:00")
-            SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
-        }
+let ``Sending.create invalid transmission returns None`` () =
+    let now = DateTimeOffset.Now
+    let transmission = Sending.create "@$%&/" "nrk3" now (now.AddMinutes 30.)
 
-    let isTransmissionValidResult = isTransmissionValid unvalidTransmission
-
-    Assert.False isTransmissionValidResult
+    Assert.True transmission.IsNone
