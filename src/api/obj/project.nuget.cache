@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "cKL3atSjbCGdkQkVp5iIfCkGeVD0Zo9uHrtVGqvtGO5ArvwQhB/750JUjLiylQBy2aA5VtIbIq0OC4UlxpqqDQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\n14358\\OneDrive - NRK\\Documents\\Programering\\.Net\\src\\api\\NRK.Dotnetskolen.Api.fsproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\n14358\\.nuget\\packages\\fsharp.core\\5.0.0\\fsharp.core.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
