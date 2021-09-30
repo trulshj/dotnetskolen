@@ -55,3 +55,33 @@ let ``areStartAndEndTimesValid start after end returns false`` () =
     let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
 
     Assert.False areStartAndSluttTidspunktValid
+
+[<Fact>]
+let ``isTransmisstionValid valid transmission returns true`` () =
+  let now = DateTimeOffset.Now
+  let transmission = {
+    Sending.Tittel = "Dagsrevyen"
+    Kanal = "NRK1"
+    StartTidspunkt = now
+    SluttTidspunkt = now.AddMinutes 30.
+  }
+
+  let isTransmissionValid = isTransmissionValid transmission
+  Assert.True isTransmissionValid
+
+[<Fact>]
+let ``isTransmisstionValid invalid transmission returns false`` () =
+  let now= DateTimeOffset.Now
+  let transmission = {
+    Sending.Tittel = "@$%&/"
+    Kanal = "nrk3"
+    StartTidspunkt = now
+    SluttTidspunkt = now.AddMinutes -30.
+  }
+
+  let isTransmissionValid = isTransmissionValid transmission
+
+  Assert.False isTransmissionValid
+
+
+  

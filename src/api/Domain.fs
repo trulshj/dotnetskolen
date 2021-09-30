@@ -6,7 +6,7 @@ module Domain =
 
   type Sending = {
     Tittel: string
-    Kanel: string
+    Kanal: string
     StartTidspunkt: DateTimeOffset
     SluttTidspunkt: DateTimeOffset
   }
@@ -22,3 +22,8 @@ module Domain =
 
   let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset): bool =
     startTime < endTime
+
+  let isTransmissionValid (transmission: Sending) : bool =
+    (isTitleValid transmission.Tittel) &&
+    (isChannelValid transmission.Kanal ) &&
+    (areStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt)
