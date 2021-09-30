@@ -1,5 +1,6 @@
 module Tests
 
+open System
 open System.IO
 open Microsoft.AspNetCore.TestHost
 open Microsoft.AspNetCore.Hosting
@@ -23,3 +24,15 @@ let ``Get ping returns 200 OK`` () = async {
 
     response.EnsureSuccessStatusCode() |> ignore
 }        
+
+[<Fact>]
+let ``Get EPG today returns 200 OK`` () = async {
+  use testServer = new TestServer(createWebHostBuilder())
+  use client = testServer.CreateClient()
+  let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
+  let url = sprintf "/epg/%s" todayAsString
+
+  let! response = client.GetAsync(url) |> Async.AwaitTask
+
+  response.EnsureSuccessStatusCode() |> ignore
+}
