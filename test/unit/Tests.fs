@@ -37,3 +37,21 @@ let ``isChannelValid invalid channel returns false`` (channel: string) =
     let isChannelValid = isChannelValid channel
 
     Assert.False isChannelValid
+
+[<Fact>]
+let ``areStartAndEndTimesValid start before end returns true`` () =
+    let startTime = DateTimeOffset.Now
+    let endTime = startTime.AddMinutes 30.
+
+    let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
+
+    Assert.True areStartAndSluttTidspunktValid
+
+[<Fact>]
+let ``areStartAndEndTimesValid start after end returns false`` () =
+    let endTime = DateTimeOffset.Now
+    let startTime = endTime.AddMinutes 30.
+
+    let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
+
+    Assert.False areStartAndSluttTidspunktValid

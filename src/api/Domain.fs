@@ -19,3 +19,6 @@ module Domain =
 
   let isChannelValid (channel: string): bool =
     List.contains channel ["NRK1"; "NRK2"]
+
+  let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset): bool =
+    startTime < endTime
