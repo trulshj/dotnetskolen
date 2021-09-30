@@ -6,6 +6,7 @@ module Program =
     open Microsoft.AspNetCore.Hosting
     open Microsoft.AspNetCore.Builder
     open Microsoft.Extensions.DependencyInjection
+    open NRK.Dotnetskolen.Api.HttpHandlers
     open Giraffe
 
     let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
@@ -14,7 +15,7 @@ module Program =
     let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
       let webApp = GET >=> choose [
                     route "/ping" >=> text "pong"
-                    routef "/epg/%s" (fun date -> json date) 
+                    routef "/epg/%s" epgHandler 
                 ]
       app.UseGiraffe webApp  
 
