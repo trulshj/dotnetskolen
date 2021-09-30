@@ -6,12 +6,14 @@ module Program =
     open Microsoft.AspNetCore.Hosting
     open Microsoft.AspNetCore.Builder
     open Microsoft.Extensions.DependencyInjection
+    open Giraffe
 
     let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
-      ()
+      services.AddGiraffe() |> ignore
 
     let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-      ()  
+      let webApp = route "/ping" >=> text "pong"
+      app.UseGiraffe webApp  
 
     let createHostBuilder args =
         Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(fun webHostBuilder -> webHostBuilder.Configure(configureApp).ConfigureServices(configureServices) |> ignore)
