@@ -16,3 +16,6 @@ module Domain =
   let isTitleValid (title: string) : bool =
       let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
       titleRegex.IsMatch(title)
+
+  let isChannelValid (channel: string): bool =
+    List.contains channel ["NRK1"; "NRK2"]
