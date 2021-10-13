@@ -51,13 +51,13 @@ let ``areStartAndEndTimesValid start before end returns true`` () =
 [<InlineData("Supernytt","NRK2")>]
 [<InlineData("Mittprogram","NRK1")>]
 let ``isTransValid valid returns true`` (title: string) (channel: string) =
-    let transmission : Sending = 
-        { 
-            Tittel = title
-            Kanal = channel
-            StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
-            SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
-        }
+    let transmission : Sending =
+      {
+        Tittel = title
+        Kanal = channel
+        StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
+        SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
+      }
     let isTransmissionValid = isTransmissionValid transmission
     // let startTid = DateTimeOffset.Now
     // let sluttTid = startTime.AddMinutes 30.
@@ -67,15 +67,15 @@ let ``isTransValid valid returns true`` (title: string) (channel: string) =
 
 [<Theory>]
 [<InlineData("+++","Nrk2")>]
-[<InlineData("Mittprogram","NRK1")>]
+[<InlineData("Mittprogram","NRK3")>]
+[<InlineData("Supersuper","NRK1")>]
 let ``isTransValid invalid returns false`` (title: string) (channel: string) =
-    let transmission : Sending = 
-        { 
-            Tittel = title
-            Kanal = channel
-            StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
-            SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
-        }
-
+    let transmission : Sending =
+      {
+        Tittel = title
+        Kanal = channel
+        StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
+        SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T18:30:00+02:00")
+      }
     let isTransmissionValid = isTransmissionValid transmission
     Assert.False isTransmissionValid
