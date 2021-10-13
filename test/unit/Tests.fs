@@ -58,3 +58,31 @@ let ``areStartAndEndTimesValid end before start returns false`` () =
     let areStartAndSluttTidspunktValid = areStartAndEndTimesValid startTime endTime
 
     Assert.False areStartAndSluttTidspunktValid
+
+[<Fact>]  
+let ``isTransmissionValid returns false on wrong transmission`` () =
+    let transmission = {
+            Tittel = "Dagsrevyen"
+            Kanal = "Tull"
+            StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
+            SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
+    }
+    let isValid = isTransmissionValid transmission 
+    Assert.False isValid    
+  
+[<Fact>]  
+ let ``isTransmissionValid returns true on correct transmission`` () =
+    let transmission = {
+            Tittel = "Dagsrevyen"
+            Kanal = "NRK1"
+            StartTidspunkt = DateTimeOffset.Parse("2021-04-16T19:00:00+02:00")
+            SluttTidspunkt = DateTimeOffset.Parse("2021-04-16T19:30:00+02:00")
+    }
+    let isValid = isTransmissionValid transmission 
+    Assert.True isValid
+    
+    
+
+    
+    
+    

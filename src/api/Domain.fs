@@ -23,5 +23,8 @@ module Domain =
         channel.Equals("NRK1") || channel.Equals("NRK2")
         
         
-    let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset) =
+    let areStartAndEndTimesValid (startTime: DateTimeOffset)(endTime: DateTimeOffset): bool =
         startTime.CompareTo(endTime) < 0
+        
+    let isTransmissionValid (transmission: Sending) : bool =
+         isTitleValid(transmission.Tittel) && isChannelValid(transmission.Kanal) && areStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt
