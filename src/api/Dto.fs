@@ -18,7 +18,7 @@ module Dto =
       domain
         |> List.filter(fun s -> s.Kanal = kanal)
         |> List.map (fun s -> {
-          Tittel = s.Tittel
+          Tittel = Domain.Tittel.value s.Tittel
           StartTidspunkt = s.StartTidspunkt.ToString("o")
           SluttTidspunkt = s.SluttTidspunkt.ToString("o")
         })

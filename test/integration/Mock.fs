@@ -10,39 +10,39 @@ module Mock =
       [
           // Sendinger tilbake i tid
           {
-              Tittel = "Testprogram"
+              Tittel = (Tittel.create "Testprogram").Value
               Kanal = "NRK1"
               StartTidspunkt = now.AddDays(-10.)
               SluttTidspunkt = now.AddDays(-10.).AddMinutes(30.)
           }
           {
-              Tittel = "Testprogram"
+              Tittel = (Tittel.create "Testprogram").Value
               Kanal = "NRK2"
               StartTidspunkt = now.AddDays(-10.)
               SluttTidspunkt = now.AddDays(-10.).AddMinutes(30.)
           }
           // Sendinger i dag
           {
-              Tittel = "Testprogram"
+              Tittel = (Tittel.create "Testprogram").Value
               Kanal = "NRK1"
               StartTidspunkt = now
               SluttTidspunkt = now.AddMinutes(30.)
           }
           {
-              Tittel = "Testprogram"
+              Tittel = (Tittel.create "Testprogram").Value
               Kanal = "NRK2"
               StartTidspunkt = now
               SluttTidspunkt = now.AddMinutes(30.)
           }
           // Sendinger frem i tid
           {
-              Tittel = "Testprogram"
+              Tittel = (Tittel.create "Testprogram").Value
               Kanal = "NRK1"
               StartTidspunkt = now.AddDays(10.)
               SluttTidspunkt = now.AddDays(10.).AddMinutes(30.)
           }
           {
-              Tittel = "Testprogram"
+              Tittel = (Tittel.create "Testprogram").Value
               Kanal = "NRK2"
               StartTidspunkt = now.AddDays(10.)
               SluttTidspunkt = now.AddDays(10.).AddMinutes(30.)

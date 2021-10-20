@@ -39,7 +39,7 @@ module DataAccess =
   let toDomain (epgEntity: EpgEntity) : Epg = 
     epgEntity
     |> List.map(fun s -> {
-        Sending.Tittel = s.Tittel
+        Sending.Tittel = (Tittel.create s.Tittel).Value
         Kanal = s.Kanal
         StartTidspunkt = DateTimeOffset.Parse(s.StartTidspunkt)
         SluttTidspunkt = DateTimeOffset.Parse(s.SluttTidspunkt)

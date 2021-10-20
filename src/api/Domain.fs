@@ -4,18 +4,30 @@ module Domain =
   open System
   open System.Text.RegularExpressions
 
+  type Tittel = private Tittel of string
+
+  let isTitleValid (title: string) : bool = 
+    let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
+    titleRegex.IsMatch(title)
+
+  module Tittel = 
+    let create (tittel: String) : Tittel option =
+      if isTitleValid tittel then
+          Tittel tittel
+          |> Some
+      else
+          None
+
+    let value (Tittel tittel) = tittel
+
   type Sending = {
-    Tittel: string
+    Tittel: Tittel
     Kanal: string
     StartTidspunkt: DateTimeOffset
     SluttTidspunkt: DateTimeOffset
   }
 
   type Epg = Sending list
-
-  let isTitleValid (title: string) : bool =
-      let titleRegex = Regex(@"^[\p{L}0-9\.,-:!]{5,100}$")
-      titleRegex.IsMatch(title)
 
   let isChannelValid (channel: string): bool =
     List.contains channel ["NRK1"; "NRK2"]
@@ -24,6 +36,5 @@ module Domain =
     startTime < endTime
 
   let isTransmissionValid (transmission: Sending) : bool =
-    (isTitleValid transmission.Tittel) &&
     (isChannelValid transmission.Kanal ) &&
     (areStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt)
