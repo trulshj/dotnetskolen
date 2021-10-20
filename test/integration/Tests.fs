@@ -7,6 +7,8 @@ open Microsoft.AspNetCore.Hosting
 open Xunit
 open NRK.Dotnetskolen.Api
 open System.Net
+open Json.Schema
+open System.Text.Json
 
 let createWebHostBuilder () =
     WebHostBuilder()
@@ -48,4 +50,22 @@ let ``Get EPG invalid date returns bad request`` () = async {
     let! response = client.GetAsync(url) |> Async.AwaitTask
 
     Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode)
+}
+
+[<Fact>]
+let ``Get EPG today return valid response`` () = async {
+    use testServer = new TestServer(createWebHostBuilder())
+    use client = testServer.CreateClient()
+    let todayAsString = DateTimeOffset.Now.ToString "yyyy-MM-dd"
+    let url = sprintf "/epg/%s" todayAsString
+    let jsonSchema = JsonSchema.FromFile "./epg.schema.json"
+
+    let! response = client.GetAsync(url) |> Async.AwaitTask
+
+    response.EnsureSuccessStatusCode() |> ignore
+    let! bodyAsString = response.Content.ReadAsStringAsync() |> Async.AwaitTask
+    let bodyAsJsonDocument = JsonDocument.Parse(bodyAsString).RootElement
+    let isJsonValid = jsonSchema.Validate(bodyAsJsonDocument, ValidationOptions(RequireFormatValidation = true)).IsValid
+
+    Assert.True(isJsonValid)
 }
