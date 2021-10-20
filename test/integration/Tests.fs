@@ -9,12 +9,14 @@ open Microsoft.AspNetCore.TestHost
 open Microsoft.AspNetCore.Hosting
 open Xunit
 open NRK.Dotnetskolen.Api
+open NRK.Dotnetskolen.Api.DataAccess
+open NRK.Dotnetskolen.Api.Services
 
 let createWebHostBuilder () =
     WebHostBuilder()
         .UseContentRoot(Directory.GetCurrentDirectory()) 
         .UseEnvironment("Test")
-        .Configure(Program.configureApp)
+        .Configure(Program.configureApp (getEpgForDate getAllTransmissions))
         .ConfigureServices(Program.configureServices)
 
 [<Fact>]

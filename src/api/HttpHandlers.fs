@@ -7,6 +7,8 @@ module HttpHandlers =
     open System.Threading.Tasks
     open Microsoft.AspNetCore.Http
     open Giraffe
+    open NRK.Dotnetskolen.Domain
+    open NRK.Dotnetskolen.Dto
 
     let parseAsDateTime (dateAsString : string) : DateTime option =
       try
@@ -15,8 +17,13 @@ module HttpHandlers =
       with
       | _ -> None
 
-    let epgHandler (dateAsString : string) : HttpHandler =
+    let epgHandler (getEpgForDate: DateTime -> Epg) (dateAsString : string) : HttpHandler =
       fun (next : HttpFunc) (ctx : HttpContext) ->
           match (parseAsDateTime dateAsString) with
-          | Some date -> (json date) next ctx
+          | Some date ->
+              let response = date
+                              |> getEpgForDate
+                              |> fromDomain
+                              |> json
+              response next ctx
           | None -> RequestErrors.badRequest (text "Invalid date") (Some >> Task.FromResult) ctx
