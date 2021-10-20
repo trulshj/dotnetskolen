@@ -57,31 +57,25 @@ let ``areStartAndEndTimesValid start after end returns false`` () =
     Assert.False areStartAndSluttTidspunktValid
 
 [<Fact>]
-let ``isTransmisstionValid valid transmission returns true`` () =
-  let now = DateTimeOffset.Now
-  let transmission = {
-    Sending.Tittel = (Tittel.create "Dagsrevyen").Value
-    Kanal = (Kanal.create "NRK1").Value
-    StartTidspunkt = now
-    SluttTidspunkt = now.AddMinutes 30.
-  }
+let ``Sending.create valid transmission returns Some`` () =
+    let now = DateTimeOffset.Now
+    let transmission = Sending.create "Dagsrevyen" "NRK1" now (now.AddMinutes 30.)
 
-  let isTransmissionValid = isTransmissionValid transmission
-  Assert.True isTransmissionValid
+    match transmission with
+    | Some t ->
+        Assert.Equal("Dagsrevyen", Tittel.value t.Tittel)
+        Assert.Equal("NRK1", Kanal.value t.Kanal)
+        Assert.Equal(now, Sendetidspunkt.startTidspunkt t.Sendetidspunkt)
+        Assert.Equal(now.AddMinutes 30., Sendetidspunkt.sluttTidspunkt t.Sendetidspunkt)
+    | None -> Assert.True false
 
 [<Fact>]
-let ``isTransmisstionValid invalid transmission returns false`` () =
-  let now= DateTimeOffset.Now
-  let transmission = {
-    Sending.Tittel = (Tittel.create "@$%&/").Value
-    Kanal = (Kanal.create "nrk3").Value
-    StartTidspunkt = now
-    SluttTidspunkt = now.AddMinutes -30.
-  }
+let ``Sending.create invalid transmission returns None`` () =
+    let now = DateTimeOffset.Now
+    let transmission = Sending.create "@$%&/" "nrk3" now (now.AddMinutes 30.)
 
-  let isTransmissionValid = isTransmissionValid transmission
+    Assert.True transmission.IsNone
 
-  Assert.False isTransmissionValid
 
 
   

@@ -36,17 +36,50 @@ module Domain =
   
     let value (Kanal kanal) = kanal
 
-  type Sending = {
-    Tittel: Tittel
-    Kanal: Kanal
+
+  type Sendetidspunkt = private {
     StartTidspunkt: DateTimeOffset
     SluttTidspunkt: DateTimeOffset
   }
 
-  type Epg = Sending list
-
   let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset): bool =
     startTime < endTime
 
-  let isTransmissionValid (transmission: Sending) : bool =
-    (areStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt)
+  module Sendetidspunkt =
+    let create (startTidspunk: DateTimeOffset) (sluttTidspunkt: DateTimeOffset): Sendetidspunkt option =
+      if areStartAndEndTimesValid startTidspunk sluttTidspunkt then 
+        {
+          StartTidspunkt = startTidspunk
+          SluttTidspunkt = sluttTidspunkt
+        }
+        |> Some
+      else 
+        None
+
+    let startTidspunkt (sendeTidspunkt: Sendetidspunkt) = sendeTidspunkt.StartTidspunkt
+    let sluttTidspunkt (sluttTidspunkt: Sendetidspunkt) = sluttTidspunkt.SluttTidspunkt
+
+
+  type Sending = {
+    Tittel: Tittel
+    Kanal: Kanal
+    Sendetidspunkt: Sendetidspunkt
+  }
+
+
+  type Epg = Sending list
+
+  module Sending =
+    let create (tittel: string) (kanal: string) (startTidspunkt: DateTimeOffset) (sluttTidspunkt: DateTimeOffset) : Sending option =
+        let tittel = Tittel.create tittel
+        let kanal = Kanal.create kanal
+        let sendeTidspunkt = Sendetidspunkt.create startTidspunkt sluttTidspunkt
+
+        if tittel.IsNone || kanal.IsNone || sendeTidspunkt.IsNone then
+            None
+        else
+            Some {
+                Tittel = tittel.Value
+                Kanal = kanal.Value
+                Sendetidspunkt = sendeTidspunkt.Value
+            }

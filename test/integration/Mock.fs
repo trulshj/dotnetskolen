@@ -7,44 +7,16 @@ module Mock =
 
   let getAllTransmissions () : Epg =
       let now = DateTimeOffset.Now
+      let past = now.AddDays(-10.)
+      let future = now.AddDays(10.)
       [
-          // Sendinger tilbake i tid
-          {
-              Tittel = (Tittel.create "Testprogram").Value
-              Kanal = (Kanal.create "NRK1").Value
-              StartTidspunkt = now.AddDays(-10.)
-              SluttTidspunkt = now.AddDays(-10.).AddMinutes(30.)
-          }
-          {
-              Tittel = (Tittel.create "Testprogram").Value
-              Kanal = (Kanal.create "NRK2").Value
-              StartTidspunkt = now.AddDays(-10.)
-              SluttTidspunkt = now.AddDays(-10.).AddMinutes(30.)
-          }
-          // Sendinger i dag
-          {
-              Tittel = (Tittel.create "Testprogram").Value
-              Kanal = (Kanal.create "NRK1").Value
-              StartTidspunkt = now
-              SluttTidspunkt = now.AddMinutes(30.)
-          }
-          {
-              Tittel = (Tittel.create "Testprogram").Value
-              Kanal = (Kanal.create "NRK2").Value
-              StartTidspunkt = now
-              SluttTidspunkt = now.AddMinutes(30.)
-          }
-          // Sendinger frem i tid
-          {
-              Tittel = (Tittel.create "Testprogram").Value
-              Kanal = (Kanal.create "NRK1").Value
-              StartTidspunkt = now.AddDays(10.)
-              SluttTidspunkt = now.AddDays(10.).AddMinutes(30.)
-          }
-          {
-              Tittel = (Tittel.create "Testprogram").Value
-              Kanal = (Kanal.create "NRK2").Value
-              StartTidspunkt = now.AddDays(10.)
-              SluttTidspunkt = now.AddDays(10.).AddMinutes(30.)
-          }
+        (Sending.create "Testprogram" "NRK1" past (past.AddMinutes(30.))).Value
+        (Sending.create "Testprogram" "NRK2" past (past.AddMinutes(30.))).Value
+        // Sendinger i dag
+        (Sending.create "Testprogram" "NRK1" now (now.AddMinutes(30.))).Value
+        (Sending.create "Testprogram" "NRK2" now (now.AddMinutes(30.))).Value
+        // Sendinger frem i tid
+        (Sending.create "Testprogram" "NRK1" future (future.AddMinutes(30.))).Value
+        (Sending.create "Testprogram" "NRK2" future (future.AddMinutes(30.))).Value
       ]
+      
