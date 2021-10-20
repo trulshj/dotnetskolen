@@ -9,8 +9,8 @@ open Microsoft.AspNetCore.TestHost
 open Microsoft.AspNetCore.Hosting
 open Xunit
 open NRK.Dotnetskolen.Api
-open NRK.Dotnetskolen.Api.DataAccess
 open NRK.Dotnetskolen.Api.Services
+open NRK.Dotnetskolen.IntegrationTests.Mock
 
 let createWebHostBuilder () =
     WebHostBuilder()
