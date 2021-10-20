@@ -20,21 +20,33 @@ module Domain =
 
     let value (Tittel tittel) = tittel
 
+
+  type Kanal = private Kanal of string
+
+  let isChannelValid (channel: string): bool =
+    List.contains channel ["NRK1"; "NRK2"]
+
+  module Kanal =
+    let create (kanal: String) : Kanal option =
+      if isChannelValid kanal then
+          Kanal kanal
+          |> Some
+      else 
+          None
+  
+    let value (Kanal kanal) = kanal
+
   type Sending = {
     Tittel: Tittel
-    Kanal: string
+    Kanal: Kanal
     StartTidspunkt: DateTimeOffset
     SluttTidspunkt: DateTimeOffset
   }
 
   type Epg = Sending list
 
-  let isChannelValid (channel: string): bool =
-    List.contains channel ["NRK1"; "NRK2"]
-
   let areStartAndEndTimesValid (startTime: DateTimeOffset) (endTime: DateTimeOffset): bool =
     startTime < endTime
 
   let isTransmissionValid (transmission: Sending) : bool =
-    (isChannelValid transmission.Kanal ) &&
     (areStartAndEndTimesValid transmission.StartTidspunkt transmission.SluttTidspunkt)

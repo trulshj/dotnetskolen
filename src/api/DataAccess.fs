@@ -40,7 +40,7 @@ module DataAccess =
     epgEntity
     |> List.map(fun s -> {
         Sending.Tittel = (Tittel.create s.Tittel).Value
-        Kanal = s.Kanal
+        Kanal = (Kanal.create s.Kanal).Value
         StartTidspunkt = DateTimeOffset.Parse(s.StartTidspunkt)
         SluttTidspunkt = DateTimeOffset.Parse(s.SluttTidspunkt)
     })

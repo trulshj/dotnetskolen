@@ -61,7 +61,7 @@ let ``isTransmisstionValid valid transmission returns true`` () =
   let now = DateTimeOffset.Now
   let transmission = {
     Sending.Tittel = (Tittel.create "Dagsrevyen").Value
-    Kanal = "NRK1"
+    Kanal = (Kanal.create "NRK1").Value
     StartTidspunkt = now
     SluttTidspunkt = now.AddMinutes 30.
   }
@@ -74,7 +74,7 @@ let ``isTransmisstionValid invalid transmission returns false`` () =
   let now= DateTimeOffset.Now
   let transmission = {
     Sending.Tittel = (Tittel.create "@$%&/").Value
-    Kanal = "nrk3"
+    Kanal = (Kanal.create "nrk3").Value
     StartTidspunkt = now
     SluttTidspunkt = now.AddMinutes -30.
   }

@@ -16,7 +16,7 @@ module Dto =
   let fromDomain (domain: Domain.Epg) : EpgDto = 
     let mapSendingerForKanal (kanal : string) =
       domain
-        |> List.filter(fun s -> s.Kanal = kanal)
+        |> List.filter(fun s -> Domain.Kanal.value s.Kanal = kanal)
         |> List.map (fun s -> {
           Tittel = Domain.Tittel.value s.Tittel
           StartTidspunkt = s.StartTidspunkt.ToString("o")
