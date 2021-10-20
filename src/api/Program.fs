@@ -31,9 +31,15 @@ module Program =
     open Microsoft.Extensions.DependencyInjection
     open Giraffe
 
-    let configureApp (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
-      let webApp = route "/ping" >=> text "pong"
-      app.UseGiraffe webApp
+    open NRK.Dotnetskolen.Api.HttpHandlers
+
+    let epgHandler (webHostContext: WebHostBuilderContext) (app: IApplicationBuilder) =
+        let webApp = GET >=> choose [
+                        route "/ping" >=> text "pong"
+                        routef "/epg/%s" epgHandler
+                    ]
+        app.UseGiraffe webApp
+
 
 
     let configureServices (webHostContext: WebHostBuilderContext) (services: IServiceCollection) =
@@ -43,7 +49,7 @@ module Program =
         Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(fun webHostBuilder ->
                 webHostBuilder
-                    .Configure(configureApp)
+                    .Configure(epgHandler)
                     .ConfigureServices(configureServices) |> ignore
             )
 
