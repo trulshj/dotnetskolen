@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{C4A7DAE1-9E6F-4EFB-BBEC-5DFBB1A7EB87}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B76B2E18-E36F-4E37-9A72-6B6606A34D55}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.Api", "src\api\NRK.Dotnetskolen.Api.fsproj", "{94DA6FC7-B627-4C2D-BF32-B1E0A52354B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5C228E52-7F24-4874-BB1F-CAC4D14108E2}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.UnitTests", "test\unit\NRK.Dotnetskolen.UnitTests.fsproj", "{73B9784A-F7D1-4B27-898A-D8F3B8075039}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "NRK.Dotnetskolen.IntegrationTests", "test\integration\NRK.Dotnetskolen.IntegrationTests.fsproj", "{0C62F33A-DAB0-4486-9F7E-F86B0AC2087B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{94DA6FC7-B627-4C2D-BF32-B1E0A52354B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94DA6FC7-B627-4C2D-BF32-B1E0A52354B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94DA6FC7-B627-4C2D-BF32-B1E0A52354B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{94DA6FC7-B627-4C2D-BF32-B1E0A52354B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73B9784A-F7D1-4B27-898A-D8F3B8075039}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73B9784A-F7D1-4B27-898A-D8F3B8075039}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73B9784A-F7D1-4B27-898A-D8F3B8075039}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73B9784A-F7D1-4B27-898A-D8F3B8075039}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C62F33A-DAB0-4486-9F7E-F86B0AC2087B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C62F33A-DAB0-4486-9F7E-F86B0AC2087B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C62F33A-DAB0-4486-9F7E-F86B0AC2087B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C62F33A-DAB0-4486-9F7E-F86B0AC2087B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{94DA6FC7-B627-4C2D-BF32-B1E0A52354B0} = {B76B2E18-E36F-4E37-9A72-6B6606A34D55}
+		{73B9784A-F7D1-4B27-898A-D8F3B8075039} = {5C228E52-7F24-4874-BB1F-CAC4D14108E2}
+		{0C62F33A-DAB0-4486-9F7E-F86B0AC2087B} = {5C228E52-7F24-4874-BB1F-CAC4D14108E2}
+	EndGlobalSection
+EndGlobal
