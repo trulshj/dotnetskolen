@@ -47,3 +47,41 @@ let ``areStartAndSluttidspunktValid start before end returns true`` () =
     let areStartAndSluttidspunktValid = areStartAndSluttidspunktValid starttidspunkt sluttidspunkt
 
     Assert.True areStartAndSluttidspunktValid
+
+[<Fact>]
+let ``areStartAndSluttidspunktValids start after end returns false`` () =
+    let starttidspunkt = DateTimeOffset.Now
+    let sluttidspunkt = starttidspunkt.AddMinutes -30.
+
+    let areStartAndSluttidspunktValid = areStartAndSluttidspunktValid starttidspunkt sluttidspunkt
+
+    Assert.False areStartAndSluttidspunktValid
+
+[<Fact>]
+let ``areStartAndSluttidspunktValid start equals end returns false`` () =
+    let starttidspunkt = DateTimeOffset.Now
+    let sluttidspunkt = starttidspunkt
+
+    let areStartAndSluttidspunktValid = areStartAndSluttidspunktValid starttidspunkt sluttidspunkt
+
+    Assert.False areStartAndSluttidspunktValid
+
+[<Fact>]
+let ``isSendingValid valid sending returns true`` () =
+    let now = DateTimeOffset.Now
+    let sending = Sending.create "Dagsrevyen" "NRK1" now (now.AddMinutes 30.)
+
+    match sending with
+    | Some t ->
+        Assert.Equal("Dagsrevyen", Tittel.value t.Tittel)
+        Assert.Equal("NRK1", Kanal.value t.Kanal)
+        Assert.Equal(now, Sendetidspunkt.starttidspunkt t.Sendetidspunkt)
+        Assert.Equal(now.AddMinutes 30., Sendetidspunkt.sluttidspunkt t.Sendetidspunkt)
+    | None -> Assert.True false
+
+[<Fact>]
+let ``isSendingValid invalid sending returns false`` () =
+    let now = DateTimeOffset.Now
+    let sending = Sending.create "@$&/" "nrk3" now now.AddMinutes -30.
+
+    Assert.True sending.IsNone

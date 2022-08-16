@@ -36,17 +36,15 @@ module DataAccess =
         }
     ]
 
-    let sendingEntityToDomain (entity: SendingEntity): Sending =
-        { 
-            Tittel = entity.Tittel
-            Kanal = entity.Kanal
-            Starttidspunkt = DateTimeOffset.Parse(entity.Starttidspunkt)
-            Sluttidspunkt = DateTimeOffset.Parse(entity.Sluttidspunkt)
-        }
-        
+    let sendingEntityToDomain (entity: SendingEntity): Sending option =
+        Sending.create entity.Tittel entity.Kanal (DateTimeOffset.Parse (entity.Starttidspunkt)) (DateTimeOffset.Parse (entity.Sluttidspunkt))
+
+
     let epgEntityToDomain (entity: EpgEntity): Epg =
         entity
         |> List.map sendingEntityToDomain
+        |> List.filter (fun s -> s.IsSome)
+        |> List.map (fun s -> s.Value)
 
     let getAlleSendinger () : Epg =
         database

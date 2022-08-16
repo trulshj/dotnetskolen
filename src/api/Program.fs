@@ -14,6 +14,7 @@ module Program =
 
     let createWebApplication (builder: WebApplicationBuilder) (getEpgForDate: DateTimeOffset -> Epg) =
         let app = builder.Build()
+        app.UseStaticFiles() |> ignore
         app.MapGet("/ping", Func<string>(fun () -> "pong")) |> ignore
         app.MapGet("/epg/{date}", Func<string, IResult>(fun date -> epgHandler getEpgForDate date)) |> ignore
         app

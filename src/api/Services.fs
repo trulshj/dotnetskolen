@@ -7,4 +7,4 @@ module Services =
 
     let getEpgForDate (getAlleSendinger : unit -> Epg) (date: DateTimeOffset) : Epg =
         let alleSendinger = getAlleSendinger ()
-        List.filter (fun s -> s.Starttidspunkt.ToString("o") = date.ToString("o")) alleSendinger
+        List.filter (fun s -> (Sendetidspunkt.starttidspunkt s.Sendetidspunkt).Date.Date = date.Date.Date) alleSendinger

@@ -7,44 +7,16 @@ module Mock =
 
     let getAlleSendinger () : Epg =
         let now = DateTimeOffset.Now
+        let past = now.AddDays(-10.)
+        let future = now.AddDays(10.)
         [
             // Sendinger tilbake i tid
-            {
-                Tittel = "Testprogram"
-                Kanal = "NRK1"
-                Starttidspunkt = now.AddDays(-10.)
-                Sluttidspunkt = now.AddDays(-10.).AddMinutes(30.)
-            }
-            {
-                Tittel = "Testprogram"
-                Kanal = "NRK2"
-                Starttidspunkt = now.AddDays(-10.)
-                Sluttidspunkt = now.AddDays(-10.).AddMinutes(30.)
-            }
+            (Sending.create "Testprogram" "NRK1" past (past.AddMinutes(30.))).Value
+            (Sending.create "Testprogram" "NRK2" past (past.AddMinutes(30.))).Value
             // Sendinger i dag
-            {
-                Tittel = "Testprogram"
-                Kanal = "NRK1"
-                Starttidspunkt = now
-                Sluttidspunkt = now.AddMinutes(30.)
-            }
-            {
-                Tittel = "Testprogram"
-                Kanal = "NRK2"
-                Starttidspunkt = now
-                Sluttidspunkt = now.AddMinutes(30.)
-            }
+            (Sending.create "Testprogram" "NRK1" now (now.AddMinutes(30.))).Value
+            (Sending.create "Testprogram" "NRK2" now (now.AddMinutes(30.))).Value
             // Sendinger frem i tid
-            {
-                Tittel = "Testprogram"
-                Kanal = "NRK1"
-                Starttidspunkt = now.AddDays(10.)
-                Sluttidspunkt = now.AddDays(10.).AddMinutes(30.)
-            }
-            {
-                Tittel = "Testprogram"
-                Kanal = "NRK2"
-                Starttidspunkt = now.AddDays(10.)
-                Sluttidspunkt = now.AddDays(10.).AddMinutes(30.)
-            }
+            (Sending.create "Testprogram" "NRK1" future (future.AddMinutes(30.))).Value
+            (Sending.create "Testprogram" "NRK2" future (future.AddMinutes(30.))).Value
         ]
